@@ -5,5 +5,5 @@
 
 ## how do i
 - load and play mp3
-- make array of audio analyser
+- ❌make array of audio analyser = cannot create (not understand AudioContext API)
 - plot a graph
