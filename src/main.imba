@@ -1,4 +1,7 @@
 import {arc,interpolateSinebow,interpolateInferno} from "d3"
+# import * as icons from '/assets/*.svg'
+import * as icons from '@imba/codicons'
+
 const arcBuilder = arc()
 
 let rawData
@@ -60,6 +63,7 @@ tag RadialGraph
 					<path d=p.path fill=p.color>
 
 def circle x
+	# for i in [1,2,3]
 	<circle fill='yellow' r='40' cx=x cy='0'>
 
 tag Temp
@@ -71,10 +75,16 @@ tag Temp
 				circle! 20
 				circle! 30
 
+tag Temp2
+	<self>
+		<svg[bg:red5 c:white] src=icons.ARROW_RIGHT>
+		<svg[bg:blue6 c:white s:3em] src=icons.PLAY>
+		<svg src=icons.BEAKER>
+
 tag App
 	<self>
 		<button @click=startFromFile!> "start"
-		<Temp>
+		<Temp2>
 
 		# <RadialGraph color=interpolateSinebow scale=2.5>
 

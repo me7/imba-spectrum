@@ -8,6 +8,9 @@ importers:
 
   .:
     dependencies:
+      '@imba/codicons':
+        specifier: ^0.1.2
+        version: 0.1.2
       d3:
         specifier: ^7.9.0
         version: 7.9.0
@@ -173,6 +176,9 @@ packages:
     engines: {node: '>=12'}
     cpu: [x64]
     os: [win32]
+
+  '@imba/codicons@0.1.2':
+    resolution: {integrity: sha512-g5WOLeCSo+mLTSo39TxrrCup5FUXP4flX38p2C069XV1eIHvQTgKAXC0nmKnv8ZbEHuBh+tTCGqtcDiLB0W8QA==}
 
   '@rollup/rollup-android-arm-eabi@4.18.0':
     resolution: {integrity: sha512-Tya6xypR10giZV1XzxmH5wr25VcZSncG0pZIjfePT0OVBvqNEurzValetGNarVrGiq66EBVAFn15iYX4w6FKgQ==}
@@ -888,6 +894,8 @@ snapshots:
 
   '@esbuild/win32-x64@0.20.2':
     optional: true
+
+  '@imba/codicons@0.1.2': {}
 
   '@rollup/rollup-android-arm-eabi@4.18.0':
     optional: true
