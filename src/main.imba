@@ -1,41 +1,30 @@
-import honk from '/assets/honk.mp3'
-
-class AudioProvider
-	prop analyser
-	prop dataArray
-	prop rawData
-	prop source
-
-	def init
-		const res = await global.fetch('/assets/honk.mp3')
-		const byteArray = await res.arrayBuffer()
-		const context = new global.AudioContext()
-		const audioBuffer = await context.decodeAudioData(byteArray)
-		source = context.createBufferSource()
-		source.buffer = audioBuffer
-		analyser = context.createAnalyser()
-		analyser.fftSize = 512
-		source.connect(analyser)
-		source.start()
-		const bufferLength = analyser.frequencyBinCount
-		dataArray = new Uint8Array(bufferLength)
-
-	def update
-		analyser.getByteFrequencyData(dataArray)
-		const orig = Array.from(dataArray)
-		rawData = [[...orig].reverse(), orig].flat()
-		# imba.commit()
-
-let ap = new AudioProvider
-
 tag App
-	def mount
-		await ap.init()
+	rawData
+
+	def startFromFile
+			const res = await global.fetch('/assets/inp.mp3')
+			const byteArray = await res.arrayBuffer()
+			const context = new AudioContext()
+			const audioBuffer = await context.decodeAudioData(byteArray)
+			const source = context.createBufferSource()
+			source.buffer = audioBuffer
+			const analyser = context.createAnalyser()
+			analyser.fftSize = 512
+			source.connect analyser
+			analyser.connect(context.destination)
+			source.start()
+			const bufferLength = analyser.frequencyBinCount
+			const dataArray = new Uint8Array(bufferLength)
+			const update = do
+				analyser.getByteFrequencyData dataArray
+				const orig = Array.from(dataArray)
+				rawData = [[...orig].reverse(), orig].flat()
+				imba.commit!
+				global.requestAnimationFrame update
+			global.requestAnimationFrame update
 
 	<self>
-		<audio controls src=honk>
-		# console.log(ap.rawData)
-		<pre> "{JSON.stringify(ap.dataArray)}"
-		await ap.update()
+		<button @click=startFromFile!> "Start From File"
+		<pre> "RAW {JSON.stringify(rawData, null, 2)}"
 
 imba.mount <App>
