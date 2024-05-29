@@ -29,7 +29,7 @@ tag RadialGraph
 	color
 	scale
 	def computed
-		const data = rawData
+		const data = rawData || []
 		const total = data.reduce(&, 0) do(a, v) a + v
 		const highCount = data.filter(do(d) d > 32).length
 		const intensity = highCount / data.length
@@ -54,22 +54,28 @@ tag RadialGraph
 			intensity: intensity
 
 	<self>
-		<g>
-			for p in computed().paths
-				<path d=p.path fill=p.color>
+		<svg width="100%" height="100%" viewBox="-100 -100 200 200" preserveAspectRatio="xMidYMid meet">
+			<g transform="scale({scale + 1})">
+				for p in computed().paths
+					<path d=p.path fill=p.color>
 
-tag Circle
+def circle x
+	<circle fill='yellow' r='40' cx=x cy='0'>
+
+tag Temp
 	<self>
-		<circle cx='0' cy='0' r='50' fill='yellow'>
+		<svg width="40%" height="40%" viewBox="-100 -100 200 200" preserveAspectRatio="xMidYMid meet">
+				<circle fill='red' r='40' cx='10' cy='10'>
+				# for i in [10,20,30] cannot use for loop inside svg tag
+				circle! 10
+				circle! 20
+				circle! 30
 
 tag App
 	<self>
-		<div @click=startFromFile! style="width: 100vw; height: 100vh;">
-			<svg width="100%" height="100%" viewBox="-100 -100 200 200" preserveAspectRatio="xMidYMid meet">
-				# <Circle> tag will not work here
-				<circle cx='0' cy='0' r='50' fill='red'>
-				# <RadialGraph color=interpolateSinebow scale=2.5>
-				# <RadialGraph color=interpolateInferno scale=1.5>
-		# <pre> "RAW {JSON.stringify(rawData, null, 2)}"
+		<button @click=startFromFile!> "start"
+		<Temp>
+
+		# <RadialGraph color=interpolateSinebow scale=2.5>
 
 imba.mount <App>
